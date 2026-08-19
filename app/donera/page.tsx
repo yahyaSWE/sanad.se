@@ -1,0 +1,10 @@
+"use client";
+import { FormEvent, useState } from "react";
+import { Card, PageIntro } from "../site-components";
+
+export default function DonatePage() {
+  const [amount, setAmount] = useState("250");
+  const [purpose, setPurpose] = useState("");
+  function submit(e: FormEvent) { e.preventDefault(); if (+amount >= 10 && purpose) window.open("https://app.swish.nu/1/p/sw/?sw=0707881017", "_blank"); }
+  return <><PageIntro title="Donera">Din donation gör direkt skillnad för familjer i Gaza. Välj ett belopp och ändamål nedan för att komma igång.<span className="notice">Just nu tar vi emot donationer via Swish. Fler betalningssätt kommer snart!</span></PageIntro><div className="narrow page-content"><Card className="form-card"><form onSubmit={submit}><label>Välj belopp *</label><div className="donate-amounts">{[100,250,500,1000].map(v => <button type="button" key={v} onClick={() => setAmount(String(v))} className={amount === String(v) ? "chosen" : ""}>{v} kr</button>)}</div><label htmlFor="amount">Eller ange eget belopp</label><div className="input-suffix"><input id="amount" type="number" min="10" value={amount} onChange={e => setAmount(e.target.value)} /><span>kr</span></div><label htmlFor="purpose">Ändamål *</label><select id="purpose" required value={purpose} onChange={e => setPurpose(e.target.value)}><option value="">Välj ändamål</option><option>Där behovet är störst</option><option>Mat och vatten</option><option>Medicinsk hjälp</option><option>Utbildning</option><option>Skydd och husrum</option></select><div className="donation-total"><span>Total donation</span><strong>{amount || 0} kr</strong></div><button className="button full swish" type="submit"><img src="/swish.jpeg" alt="" />Betala med Swish</button><p className="form-help">Du kommer att omdirigeras till Swish för att slutföra betalningen</p></form></Card><div className="trust-grid"><Card><strong>100%</strong><span>av din donation går till hjälparbete</span></Card><Card><strong>Transparent</strong><span>Du får kvitton och dokumentation via WhatsApp-grupp</span></Card><Card><strong>Säkert</strong><span>Krypterade betalningar</span></Card></div></div></>;
+}
